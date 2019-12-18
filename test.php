@@ -2,8 +2,12 @@
 
 include_once('bd_conexion/conexion.php');
 
-BaseDatos::Conexion();
 
+$arrayResultado = Productos::TraerProductos();
+
+foreach ($arrayResultado as $key => $value) {
+	echo $value['nombre']."<br>";
+}
 
 
  ?>

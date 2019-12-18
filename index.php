@@ -1,6 +1,12 @@
 <?php
 require('herramientas/fpdf/fpdf.php');
+include_once('bd_conexion/conexion.php');
 
+
+$arrayResultado = Productos::TraerProductos();
+
+
+//----*************///
 class PDF extends FPDF
 {
 // Cabecera de página
@@ -16,6 +22,9 @@ function Header()
     $this->Cell(70,10,'Reporte de productos',1,0,'C');
     // Salto de línea
     $this->Ln(20);
+    $this->Cell(50,10,'nombre',1,0,'C',0);
+    $this->Cell(45,10,'precio',1,0,'C',0);
+    $this->Cell(45,10,'stok',1,1,'C',0);
 }
 
 // Pie de página
@@ -35,8 +44,14 @@ $pdf = new PDF();
 $pdf->AliasNbPages();
 $pdf->AddPage();
 $pdf->SetFont('Times','',12);
-for($i=1;$i<=40;$i++)
-    $pdf->Cell(0,10,utf8_decode('Imprimiendo línea número ').$i,0,1);
+
+foreach ($arrayResultado as $key => $value) {
+    $pdf->Cell(50,10,$value['nombre'],1,0,'C',0);
+    $pdf->Cell(45,10,$value['precio'],1,0,'C',0);
+    $pdf->Cell(45,10,$value['stock'],1,1,'C',0);
+}
+
+
 $pdf->Output();
 
 ?>
